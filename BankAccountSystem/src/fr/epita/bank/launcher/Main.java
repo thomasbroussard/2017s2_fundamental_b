@@ -10,6 +10,7 @@ import java.util.Scanner;
 import fr.epita.bank.datamodel.Customer;
 import fr.epita.bank.datamodel.InvestmentAccount;
 import fr.epita.bank.datamodel.SavingsAccount;
+import fr.epita.bank.services.ui.ConsoleHandler;
 
 public class Main {
 
@@ -31,14 +32,14 @@ public class Main {
 		System.out.println("please enter an initial balance for the investments account : ");
 
 		InvestmentAccount investmentAccount = new InvestmentAccount();
-		Double investmentsBalance = getDouble(scanner);
+		Double investmentsBalance = ConsoleHandler.getDouble(scanner);
 
 		investmentAccount.setBalance(investmentsBalance);
 
 		System.out.println("please enter an initial balance for the savings account : ");
 
 		SavingsAccount savingsAccount = new SavingsAccount();
-		Double savingsBalance = getDouble(scanner);
+		Double savingsBalance = ConsoleHandler.getDouble(scanner);
 		savingsAccount.setBalance(savingsBalance);
 
 		customer1.setInvestmentsAccounts(Arrays.asList(investmentAccount));
@@ -48,42 +49,5 @@ public class Main {
 
 	}
 
-	/** 
-	 * <h3>Description</h3>  
-	 * <p>Cette méthode permet de ...</p>
-	 *
-	 * <h3>Utilisation</h3>
-	 * <p>Elle s'utilise de la manière suivante :
-	 *   
-	 * <pre><code> ${enclosing_type} sample;
-	 *
-	 * //...
-	 *
-	 * sample.${enclosing_method}();
-	 *</code></pre>
-	 * </p>
-	 *  
-	 * @since $${version}
-	 * @see Voir aussi $${link}
-	 * @author ${user}
-	 *
-	 * ${tags}
-	 */
-	private static Double getDouble(Scanner scanner) {
-		Double investmentsBalance = 0d;
-		int counter = 0;
-		while (counter < 3) {
-			if (scanner.hasNextDouble()) {
-				investmentsBalance = scanner.nextDouble();
-				break;
-			} else {
-				String textFromConsole = scanner.nextLine();
-				System.out.println("Your input was wrong, expected a number and you input : " + textFromConsole);
-				System.out.println("please retry");
-				counter++;
-			}
-		}
-		return investmentsBalance;
-	}
 
 }
