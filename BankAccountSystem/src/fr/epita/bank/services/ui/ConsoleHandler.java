@@ -9,6 +9,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
+
 /** 
  * <h3>Description</h3>  
  * <p>Cette classe permet de ...</p>
@@ -26,6 +27,8 @@ import java.util.Scanner;
  */
 public class ConsoleHandler {
 	
+	
+	private Scanner scanner = new Scanner(System.in);
 
 	
 	
@@ -70,7 +73,7 @@ public class ConsoleHandler {
 //	}
 	
 	
-	public static Double getDouble(Scanner scanner) {
+	public Double getDouble() {
 		Double result = 0d;
 		int counter = 0;
 		while (counter < 3) {
@@ -87,6 +90,33 @@ public class ConsoleHandler {
 		
 		
 		return result;
+	}
+	
+	
+	/** 
+	 * <h3>Description</h3>  
+	 * <p>Cette méthode permet de ...</p>
+	 *
+	 * <h3>Utilisation</h3>
+	 * <p>Elle s'utilise de la manière suivante :
+	 *   
+	 * <pre><code> ${enclosing_type} sample;
+	 *
+	 * //...
+	 *
+	 * sample.${enclosing_method}();
+	 *</code></pre>
+	 * </p>
+	 *  
+	 * @since $${version}
+	 * @see Voir aussi $${link}
+	 * @author ${user}
+	 *
+	 * ${tags}
+	 */
+	public String getString() {
+		String stringValue = scanner.nextLine();
+		return stringValue;
 	}
 
 }

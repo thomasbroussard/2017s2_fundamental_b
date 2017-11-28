@@ -15,12 +15,13 @@ import fr.epita.bank.services.ui.ConsoleHandler;
 public class Main {
 
 	public static void main(String[] args) {
-
-		Scanner scanner = new Scanner(System.in);
+		
 		System.out.println("Welcome to the Bank Account System");
 		System.out.println("Please enter a customer name:");
 
-		String customerName = scanner.nextLine();
+		
+		ConsoleHandler console = new ConsoleHandler();
+		String customerName = console.getString();
 
 		// Customer creation
 		Customer customer1 = new Customer();
@@ -32,14 +33,14 @@ public class Main {
 		System.out.println("please enter an initial balance for the investments account : ");
 
 		InvestmentAccount investmentAccount = new InvestmentAccount();
-		Double investmentsBalance = ConsoleHandler.getDouble(scanner);
+		Double investmentsBalance = console.getDouble();
 
 		investmentAccount.setBalance(investmentsBalance);
 
 		System.out.println("please enter an initial balance for the savings account : ");
 
 		SavingsAccount savingsAccount = new SavingsAccount();
-		Double savingsBalance = ConsoleHandler.getDouble(scanner);
+		Double savingsBalance = console.getDouble();
 		savingsAccount.setBalance(savingsBalance);
 
 		customer1.setInvestmentsAccounts(Arrays.asList(investmentAccount));
@@ -48,6 +49,8 @@ public class Main {
 		System.out.println(customer1);
 
 	}
+
+
 
 
 }
