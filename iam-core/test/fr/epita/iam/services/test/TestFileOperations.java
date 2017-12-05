@@ -42,8 +42,11 @@ public class TestFileOperations {
 		// When : we execute the action
 		dao.create(id1);
 
+
 		// Then : we expect the following result to verify the test.
-		final List<Identity> identities = dao.search(id1);
+		final Identity criteria = new Identity();
+		criteria.setDisplayName("Thom");
+		final List<Identity> identities = dao.search(criteria);
 		if (identities.get(0).equals(id1)) {
 			System.out.println("success");
 		} else {
