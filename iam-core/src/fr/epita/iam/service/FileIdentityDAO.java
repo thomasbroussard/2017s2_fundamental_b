@@ -117,9 +117,20 @@ public class FileIdentityDAO {
 	 *         ${tags}
 	 */
 	private boolean checkMatch(Identity criteria, final Identity currentIdentity) {
-		return currentIdentity.getDisplayName().startsWith(criteria.getDisplayName())
-				|| currentIdentity.getEmail().startsWith(criteria.getEmail()) || currentIdentity.getUid().equals(criteria.getUid());
+		boolean result = false;
+		if (criteria.getDisplayName() != null) {
+			result = result || currentIdentity.getDisplayName().startsWith(criteria.getDisplayName());
+		}
+		if (criteria.getEmail() != null) {
+			result = result || currentIdentity.getEmail().startsWith(criteria.getEmail());
+
+		}
+		if (criteria.getUid() != null) {
+			result = result || currentIdentity.getUid().equals(criteria.getUid());
+		}
+		return result;
 	}
+
 
 	public void update(Identity identity) {
 

@@ -89,7 +89,7 @@ public class TestFileOperations {
 	 * <h3>Usage</h3>
 	 * <p>
 	 * It should be used as follows :
-	 * 
+	 *
 	 * <pre>
 	 * <code> ${enclosing_type} sample;
 	 *
@@ -99,7 +99,7 @@ public class TestFileOperations {
 	 *</code>
 	 * </pre>
 	 * </p>
-	 * 
+	 *
 	 * @since $${version}
 	 * @see Voir aussi $${link}
 	 * @author ${user}
@@ -118,9 +118,12 @@ public class TestFileOperations {
 		// When : we execute the action
 		dao.create(id1);
 
+		id1.setDisplayName("Tom Broussard");
+		dao.update(id1);
+
 		// Then : we expect the following result to verify the test.
 		final Identity criteria = new Identity();
-		criteria.setDisplayName("Thom");
+		criteria.setDisplayName("Tom");
 		final List<Identity> identities = dao.search(criteria);
 		if (identities.get(0).equals(id1)) {
 			System.out.println("success");
