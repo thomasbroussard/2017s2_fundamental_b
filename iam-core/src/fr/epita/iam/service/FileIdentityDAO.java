@@ -5,6 +5,7 @@
 package fr.epita.iam.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class FileIdentityDAO {
 
 		}
 
-		printWriter = new PrintWriter(file);
+		printWriter = new PrintWriter(new FileOutputStream(file, true));
 		scanner = new Scanner(file);
 
 
