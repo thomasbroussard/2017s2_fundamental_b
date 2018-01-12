@@ -29,13 +29,74 @@ import java.sql.SQLException;
 public class TestDataBaseOperations {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
-		final String connectionString = "jdbc:derby://localhost:1527/iam-b;create=true";
-		final String userName = "root";
-		final String password = "root";
+		testConnectAndSelect();
 
-		Class.forName("org.apache.derby.jdbc.ClientDriver");
+		// createTest();
+	}
 
-		final Connection connection = DriverManager.getConnection(connectionString, userName, password);
+	/**
+	 * <h3>Description</h3>
+	 * <p>This methods allows to ...</p>
+	 *
+	 * <h3>Usage</h3>
+	 * <p>It should be used as follows :
+	 *
+	 * <pre><code> ${enclosing_type} sample;
+	 *
+	 * //...
+	 *
+	 * sample.${enclosing_method}();
+	 *</code></pre>
+	 * </p>
+	 *
+	 * @since $${version}
+	 * @see Voir aussi $${link}
+	 * @author ${user}
+	 *
+	 * ${tags}
+	 */
+	private static void createTest() throws ClassNotFoundException, SQLException {
+		final Connection connection = getConnection();
+
+		final PreparedStatement preparedStatement = connection
+				.prepareStatement("INSERT INTO IDENTITIES (DISPLAY_NAME, EMAIL, UID) VALUES (?, ?, ?)");
+
+		preparedStatement.setString(1, "Clément");
+		preparedStatement.setString(2, "cserr@natsystem.fr");
+		preparedStatement.setString(3, "4567");
+		preparedStatement.execute();
+
+		connection.close();
+	}
+
+	/**
+	 * <h3>Description</h3>
+	 * <p>
+	 * This methods allows to ...
+	 * </p>
+	 *
+	 * <h3>Usage</h3>
+	 * <p>
+	 * It should be used as follows :
+	 *
+	 * <pre>
+	 * <code> ${enclosing_type} sample;
+	 *
+	 * //...
+	 *
+	 * sample.${enclosing_method}();
+	 *</code>
+	 * </pre>
+	 * </p>
+	 *
+	 * @since $${version}
+	 * @see Voir aussi $${link}
+	 * @author ${user}
+	 *
+	 *         ${tags}
+	 */
+	private static void testConnectAndSelect() throws ClassNotFoundException, SQLException {
+		final Connection connection = getConnection();
 
 		final String sqlQuery = "select * from IDENTITIES";
 
@@ -47,7 +108,44 @@ public class TestDataBaseOperations {
 			System.out.println(resultSet.getString(3));
 			System.out.println(resultSet.getInt(4));
 		}
-
 		connection.close();
 	}
+
+	/**
+	 * <h3>Description</h3>
+	 * <p>
+	 * This methods allows to ...
+	 * </p>
+	 *
+	 * <h3>Usage</h3>
+	 * <p>
+	 * It should be used as follows :
+	 *
+	 * <pre>
+	 * <code> ${enclosing_type} sample;
+	 *
+	 * //...
+	 *
+	 * sample.${enclosing_method}();
+	 *</code>
+	 * </pre>
+	 * </p>
+	 *
+	 * @since $${version}
+	 * @see Voir aussi $${link}
+	 * @author ${user}
+	 *
+	 *         ${tags}
+	 */
+	private static Connection getConnection() throws ClassNotFoundException, SQLException {
+		final String connectionString = "jdbc:derby://localhost:1527/iam-b;create=true";
+		final String userName = "root";
+		final String password = "root";
+
+		Class.forName("org.apache.derby.jdbc.ClientDriver");
+
+		final Connection connection = DriverManager.getConnection(connectionString, userName, password);
+		return connection;
+	}
+
 }
