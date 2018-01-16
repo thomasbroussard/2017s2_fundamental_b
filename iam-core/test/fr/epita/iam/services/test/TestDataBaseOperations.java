@@ -148,4 +148,38 @@ public class TestDataBaseOperations {
 		return connection;
 	}
 
+	/**
+	 * <h3>Description</h3>
+	 * <p>
+	 * This methods allows to ...
+	 * </p>
+	 *
+	 * <h3>Usage</h3>
+	 * <p>
+	 * It should be used as follows :
+	 *
+	 * <pre>
+	 * <code> ${enclosing_type} sample;
+	 *
+	 * //...
+	 *
+	 * sample.${enclosing_method}();
+	 *</code>
+	 * </pre>
+	 * </p>
+	 *
+	 * @since $${version}
+	 * @see Voir aussi $${link}
+	 * @author ${user}
+	 *
+	 *         ${tags}
+	 */
+	private static void differenceBetweenPreparedStatementAndStatement() throws ClassNotFoundException, SQLException {
+		final Connection connection = getConnection();
+		final PreparedStatement prepareStatement = connection.prepareStatement("select * from IDENTITIES where DISPLAY_NAME = ?");
+		// Don't do what follows, this will not be protected against SQL injections.
+		// Statement statement = connection.createStatement("select * from IDENTITIES where DISPLAY_NAME = ?");
+		final String parameter = " 'toto' and 1 = 1; DROP TABLE IDENTIES";
+		prepareStatement.setString(1, parameter);
+	}
 }
