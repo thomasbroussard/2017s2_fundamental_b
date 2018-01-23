@@ -93,14 +93,14 @@ public class IdentityJDBCDAO implements IdentityDAO {
 				identities.add(identity);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			LOGGER.error("error while searching", e);
 		} finally {
 			try {
 				if (connection != null) {
 					connection.close();
 				}
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				LOGGER.error("unresolved error", e);
 			}
 		}
 
