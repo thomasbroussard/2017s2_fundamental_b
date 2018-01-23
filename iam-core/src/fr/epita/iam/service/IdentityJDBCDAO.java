@@ -6,7 +6,10 @@ package fr.epita.iam.service;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
 
@@ -56,9 +59,42 @@ public class IdentityJDBCDAO {
 				e.printStackTrace();
 			}
 		}
+	}
 
+	public List<Identity> search(Identity criteria) {
+		final List<Identity> identities = new ArrayList<>();
+		// TODO reduce the number of lines to avoid repetition
+		// the pattern is always the same, improve with your own ideas.
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			final PreparedStatement preparedStatement = connection
+					.prepareStatement("select UID, DISPLAY_NAME, EMAIL FROM IDENTITIES WHERE DISPLAY_NAME = ? OR EMAIL = ? OR UID = ? ");
+			preparedStatement.setString(3, criteria.getUid());
+			preparedStatement.setString(1, criteria.getDisplayName());
+			preparedStatement.setString(2, criteria.getEmail());
 
+			final ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				final Identity identity = new Identity();
+				identity.setDisplayName(resultSet.getString(2));
+				identity.setEmail(resultSet.getString(3));
+				identity.setUid(resultSet.getString(1));
+				identities.add(identity);
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			}
+		}
 
+		return identities;
 	}
 
 	private static Connection getConnection() throws ClassNotFoundException, SQLException {

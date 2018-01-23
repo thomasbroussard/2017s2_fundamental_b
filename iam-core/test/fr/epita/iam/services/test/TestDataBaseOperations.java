@@ -10,6 +10,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import fr.epita.iam.datamodel.Identity;
+import fr.epita.iam.service.IdentityJDBCDAO;
 
 /**
  * <h3>Description</h3>
@@ -29,9 +33,11 @@ import java.sql.SQLException;
 public class TestDataBaseOperations {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
-		testConnectAndSelect();
+		// testConnectAndSelect();
 
 		// createTest();
+
+		testCreateSearchFromDAO();
 	}
 
 	/**
@@ -109,6 +115,30 @@ public class TestDataBaseOperations {
 			System.out.println(resultSet.getInt(4));
 		}
 		connection.close();
+	}
+
+	private static void testCreateSearchFromDAO() {
+		// given
+		final IdentityJDBCDAO dao = new IdentityJDBCDAO();
+		final Identity identity = new Identity();
+		identity.setDisplayName("Thomas Broussard");
+		identity.setUid("1234");
+		identity.setEmail("tbr@tbr.com");
+
+		dao.create(identity);
+
+		// when
+		final Identity criteria = new Identity();
+		criteria.setDisplayName("Thomas Broussard");
+		final List<Identity> identities = dao.search(criteria);
+
+		// then
+		if (identities == null || identities.isEmpty()) {
+			System.out.println("failure");
+		} else {
+			System.out.println("success");
+		}
+
 	}
 
 	/**
