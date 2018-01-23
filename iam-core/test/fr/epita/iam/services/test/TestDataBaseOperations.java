@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
+import fr.epita.iam.exceptions.DaoCreationException;
 import fr.epita.iam.service.IdentityJDBCDAO;
 
 /**
@@ -125,7 +126,11 @@ public class TestDataBaseOperations {
 		identity.setUid("1234");
 		identity.setEmail("tbr@tbr.com");
 
-		dao.create(identity);
+		try {
+			dao.create(identity);
+		} catch (final DaoCreationException e) {
+			System.out.println(e.getMessage());
+		}
 
 		// when
 		final Identity criteria = new Identity();

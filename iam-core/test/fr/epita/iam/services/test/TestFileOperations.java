@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
+import fr.epita.iam.exceptions.DaoCreationException;
 import fr.epita.iam.service.FileIdentityDAO;
 import fr.epita.iam.service.IdentityDAO;
 
@@ -67,7 +68,11 @@ public class TestFileOperations {
 		id1.setEmail("tbr@tbr.com");
 
 		// When : we execute the action
-		dao.create(id1);
+		try {
+			dao.create(id1);
+		} catch (final DaoCreationException e) {
+			System.out.println(e.getMessage());
+		}
 
 
 		// Then : we expect the following result to verify the test.

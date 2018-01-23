@@ -3,12 +3,9 @@
  * Code application :
  * Composant :
  */
-package fr.epita.iam.service;
-
-import java.util.List;
+package fr.epita.iam.exceptions;
 
 import fr.epita.iam.datamodel.Identity;
-import fr.epita.iam.exceptions.DaoCreationException;
 
 /**
  * <h3>Description</h3>
@@ -25,14 +22,22 @@ import fr.epita.iam.exceptions.DaoCreationException;
  *
  * ${tags}
  */
-public interface IdentityDAO {
+public class DaoCreationException extends Exception {
 
-	public void create(Identity identity) throws DaoCreationException;
+	Identity faultyIdentity;
 
-	public void update(Identity identity);
+	/**
+	 *
+	 */
+	public DaoCreationException(Identity identity, Exception originalCause) {
+		faultyIdentity = identity;
+		initCause(originalCause);
 
-	public void delete(Identity identity);
+	}
 
-	public List<Identity> search(Identity criteria);
+	@Override
+	public String getMessage() {
+		return "problem occured while creating that identity in the system " + faultyIdentity.toString();
+	}
 
 }
