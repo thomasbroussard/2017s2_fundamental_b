@@ -10,6 +10,7 @@ import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.service.FileIdentityDAO;
+import fr.epita.iam.service.IdentityDAO;
 
 /**
  * <h3>Description</h3>
@@ -58,7 +59,7 @@ public class TestFileOperations {
 	 */
 	private static void testCreateAndSearch() throws IOException {
 		// Given : initial context
-		final FileIdentityDAO dao = new FileIdentityDAO("/tmp/2017s2_b/identities.txt");
+		final IdentityDAO dao = new FileIdentityDAO("/tmp/2017s2_b/identities.txt");
 
 		final Identity id1 = new Identity();
 		id1.setDisplayName("Thomas");

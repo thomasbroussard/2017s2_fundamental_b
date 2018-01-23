@@ -34,8 +34,9 @@ import fr.epita.iam.datamodel.Identity;
  *
  *         ${tags}
  */
-public class IdentityJDBCDAO {
+public class IdentityJDBCDAO implements IdentityDAO {
 
+	@Override
 	public void create(Identity identity) {
 		Connection connection = null;
 		try {
@@ -61,10 +62,12 @@ public class IdentityJDBCDAO {
 		}
 	}
 
+	@Override
 	public List<Identity> search(Identity criteria) {
 		final List<Identity> identities = new ArrayList<>();
 		// TODO reduce the number of lines to avoid repetition
 		// the pattern is always the same, improve with your own ideas.
+		// check lambda expressions
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -106,6 +109,24 @@ public class IdentityJDBCDAO {
 
 		final Connection connection = DriverManager.getConnection(connectionString, userName, password);
 		return connection;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.epita.iam.service.IdentityDAO#update(fr.epita.iam.datamodel.Identity)
+	 */
+	@Override
+	public void update(Identity identity) {
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.epita.iam.service.IdentityDAO#delete(fr.epita.iam.datamodel.Identity)
+	 */
+	@Override
+	public void delete(Identity identity) {
+
 	}
 
 }
