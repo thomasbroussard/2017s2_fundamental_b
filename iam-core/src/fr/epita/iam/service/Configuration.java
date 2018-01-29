@@ -43,7 +43,7 @@ public class Configuration {
 	private Configuration() {
 		properties = new Properties();
 		try {
-			properties.load(new FileInputStream("testConfiguration.properties"));
+			properties.load(new FileInputStream(System.getProperty("conf")));
 		} catch (final IOException e) {
 			logger.error("error while loading the configuration", e);
 		}

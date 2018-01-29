@@ -108,7 +108,8 @@ public class IdentityJDBCDAO implements IdentityDAO {
 	}
 
 	private static Connection getConnection() throws ClassNotFoundException, SQLException {
-		final String connectionString = "jdbc:derby://localhost:1527/iam-b;create=true";
+
+		final String connectionString = Configuration.getInstance().getProperty("db.host");
 		final String userName = "root";
 		final String password = "root";
 

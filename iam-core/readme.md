@@ -1,4 +1,6 @@
-# TODO
+# TODO (2018/01/29)
+* for the next time, replace all hardcoded values by configuration
+* document yourself on DOM standard (XML-related)
 
 
 
