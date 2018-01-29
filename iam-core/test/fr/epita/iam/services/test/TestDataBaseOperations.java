@@ -14,6 +14,7 @@ import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
 import fr.epita.iam.exceptions.IdentityCreationException;
+import fr.epita.iam.service.Configuration;
 import fr.epita.iam.service.IdentityJDBCDAO;
 
 /**
@@ -173,7 +174,9 @@ public class TestDataBaseOperations {
 	 *         ${tags}
 	 */
 	private static Connection getConnection() throws ClassNotFoundException, SQLException {
-		final String connectionString = "jdbc:derby://localhost:1527/iam-b;create=true";
+
+		final Configuration configuration = Configuration.getInstance();
+		final String connectionString = configuration.getProperty("db.host");
 		final String userName = "root";
 		final String password = "root";
 
