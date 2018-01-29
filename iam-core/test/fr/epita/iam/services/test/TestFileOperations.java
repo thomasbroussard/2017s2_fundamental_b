@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
-import fr.epita.iam.exceptions.DaoCreationException;
+import fr.epita.iam.exceptions.IdentityCreationException;
 import fr.epita.iam.service.FileIdentityDAO;
 import fr.epita.iam.service.IdentityDAO;
 
@@ -70,7 +70,7 @@ public class TestFileOperations {
 		// When : we execute the action
 		try {
 			dao.create(id1);
-		} catch (final DaoCreationException e) {
+		} catch (final IdentityCreationException e) {
 			System.out.println(e.getMessage());
 		}
 

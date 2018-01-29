@@ -22,14 +22,14 @@ import fr.epita.iam.datamodel.Identity;
  *
  * ${tags}
  */
-public class DaoCreationException extends Exception {
+public class IdentityCreationException extends Exception {
 
 	Identity faultyIdentity;
 
 	/**
 	 *
 	 */
-	public DaoCreationException(Identity identity, Exception originalCause) {
+	public IdentityCreationException(Identity identity, Exception originalCause) {
 		faultyIdentity = identity;
 		initCause(originalCause);
 

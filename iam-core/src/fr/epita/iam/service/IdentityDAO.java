@@ -8,7 +8,7 @@ package fr.epita.iam.service;
 import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
-import fr.epita.iam.exceptions.DaoCreationException;
+import fr.epita.iam.exceptions.IdentityCreationException;
 
 /**
  * <h3>Description</h3>
@@ -27,7 +27,7 @@ import fr.epita.iam.exceptions.DaoCreationException;
  */
 public interface IdentityDAO {
 
-	public void create(Identity identity) throws DaoCreationException;
+	public void create(Identity identity) throws IdentityCreationException;
 
 	public void update(Identity identity);
 

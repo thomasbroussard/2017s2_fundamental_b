@@ -1,3 +1,7 @@
+# TODO
+
+
+
 #TODO (2018/01/12)
 * for the next time train yourself with using DELETE and UPDATE statement from java
 

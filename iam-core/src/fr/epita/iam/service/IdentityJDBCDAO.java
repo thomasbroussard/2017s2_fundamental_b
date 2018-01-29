@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
-import fr.epita.iam.exceptions.DaoCreationException;
+import fr.epita.iam.exceptions.IdentityCreationException;
 import fr.epita.logger.Logger;
 
 /**
@@ -41,7 +41,7 @@ public class IdentityJDBCDAO implements IdentityDAO {
 	private static final Logger LOGGER = new Logger(IdentityJDBCDAO.class);
 
 	@Override
-	public void create(Identity identity) throws DaoCreationException {
+	public void create(Identity identity) throws IdentityCreationException {
 		Connection connection = null;
 		try {
 			connection = getConnection();
@@ -54,7 +54,7 @@ public class IdentityJDBCDAO implements IdentityDAO {
 
 		} catch (ClassNotFoundException | SQLException e) {
 			LOGGER.error("error in create method :" + e.getMessage());
-			final DaoCreationException businessException = new DaoCreationException(identity, e);
+			final IdentityCreationException businessException = new IdentityCreationException(identity, e);
 
 			throw businessException;
 		} finally {

@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import fr.epita.iam.datamodel.Identity;
-import fr.epita.iam.exceptions.DaoCreationException;
+import fr.epita.iam.exceptions.IdentityCreationException;
 import fr.epita.iam.service.IdentityJDBCDAO;
 
 /**
@@ -128,7 +128,7 @@ public class TestDataBaseOperations {
 
 		try {
 			dao.create(identity);
-		} catch (final DaoCreationException e) {
+		} catch (final IdentityCreationException e) {
 			System.out.println(e.getMessage());
 		}
 
