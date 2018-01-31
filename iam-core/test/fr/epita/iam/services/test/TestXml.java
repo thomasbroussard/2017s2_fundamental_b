@@ -13,6 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import fr.epita.iam.datamodel.Identity;
+import fr.epita.iam.exceptions.IdentityCreationException;
 import fr.epita.iam.service.IdentityDAO;
 import fr.epita.iam.service.IdentityXMLDAO;
 
@@ -68,9 +69,15 @@ public class TestXml {
 		final IdentityDAO dao = new IdentityXMLDAO();
 
 		// when
-		final List<Identity> identities = dao.search(new Identity("Thomas", null, null));
+		try {
+			dao.create(new Identity("Clément", "cserr@cserr.com", "123456"));
+		} catch (final IdentityCreationException e) {
+			System.out.println("error while creating identity");
+			return;
+		}
 
 		// then
+		final List<Identity> identities = dao.search(new Identity("Clément", null, null));
 		if (identities.isEmpty()) {
 			System.out.println("failure");
 		} else {
