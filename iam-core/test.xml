@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<identities> <!-- root or document Element-->
+	<identity> <!-- element (child of root) -->
+		<property name="displayName"> <!-- name is an attribute -->
+			Thomas   <!-- "Thomas" is a text content -->
+		</property>
+		<property name="email">
+			tbr@tbr.com
+		</property>
+		<property name="uid">
+			1234
+		</property>
+	</identity>
+</identities>

@@ -27,6 +27,24 @@ public class Identity {
 
 
 
+
+	/**
+	 *
+	 */
+	public Identity() {
+	}
+
+	/**
+	 * @param displayName
+	 * @param email
+	 * @param uid
+	 */
+	public Identity(String displayName, String email, String uid) {
+		this.displayName = displayName;
+		this.email = email;
+		this.uid = uid;
+	}
+
 	/**
 	 * @return the displayName
 	 */
