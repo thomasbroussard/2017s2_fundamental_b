@@ -59,7 +59,7 @@ public class IdentityXMLDAO implements IdentityDAO {
 	/**
 	 *
 	 */
-	private static final String XPATH_SEARCH_QUERY = "/identities/identity[contains(./property[@name='displayName']/text(),'%NAME%')]/property";
+	private static final String XPATH_SEARCH_QUERY = "/identities/identity[contains(./property[@name='displayName']/text(),'%NAME%')]";
 	private static final String XPATH_NAME_WILDCARD = "%NAME%";
 
 	/**
@@ -202,21 +202,15 @@ public class IdentityXMLDAO implements IdentityDAO {
 	@Override
 	public List<Identity> search(Identity criteria) {
 		final List<Identity> results = new ArrayList<>();
-		String finalXpathString = XPATH_SEARCH_QUERY.replaceAll(XPATH_NAME_WILDCARD, criteria.getDisplayName());
+		final String finalXpathString = XPATH_SEARCH_QUERY.replaceAll(XPATH_NAME_WILDCARD, criteria.getDisplayName());
 		final List<Element> list = evaluateXpathAsNodeList(finalXpathString,
-				document);
+				document.getDocumentElement());
 
 		for (final Element element : list) {
 			final Identity identity = new Identity();
-			if ("displayName".equals(element.getAttribute("name"))) {
-				identity.setDisplayName(element.getTextContent());
-			}
-			if ("email".equals(element.getAttribute("name"))) {
-				identity.setEmail(element.getTextContent());
-			}
-			if ("uid".equals(element.getAttribute("name"))) {
-				identity.setUid(element.getTextContent());
-			}
+			identity.setDisplayName(evaluateXpathAsText("property[@name='displayName']/text()", element));
+			identity.setEmail(evaluateXpathAsText("property[@name='email']/text()", element));
+			identity.setUid(evaluateXpathAsText("property[@name='uid']/text()", element));
 			results.add(identity);
 		}
 		return results;
@@ -261,6 +255,18 @@ public class IdentityXMLDAO implements IdentityDAO {
 			elements.add((Element) nl.item(i));
 		}
 		return elements;
+	}
+
+	private String evaluateXpathAsText(String xpathExpr, Node el) {
+		String result = "";
+		final List<Element> elements = new ArrayList<>();
+		try {
+			result = (String) XPATH_FACTORY.newXPath().evaluate(xpathExpr, el, XPathConstants.STRING);
+		} catch (final XPathExpressionException e) {
+			LOGGER.error("error while executing this query : " + xpathExpr, e);
+			return "";
+		}
+		return result;
 	}
 
 	/*
