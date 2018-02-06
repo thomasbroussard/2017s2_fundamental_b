@@ -19,6 +19,9 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -52,6 +55,17 @@ import fr.epita.logger.Logger;
  *         ${tags}
  */
 public class IdentityXMLDAO implements IdentityDAO {
+
+	/**
+	 *
+	 */
+	private static final String XPATH_SEARCH_QUERY = "/identities/identity[contains(./property[@name='displayName']/text(),'%NAME%')]/property";
+	private static final String XPATH_NAME_WILDCARD = "%NAME%";
+
+	/**
+	 *
+	 */
+	private static final XPathFactory XPATH_FACTORY = XPathFactory.newInstance();
 
 	private static final Logger LOGGER = new Logger(IdentityXMLDAO.class);
 
@@ -187,43 +201,112 @@ public class IdentityXMLDAO implements IdentityDAO {
 	 */
 	@Override
 	public List<Identity> search(Identity criteria) {
-		final List<Identity> list = new ArrayList<>();
-		final NodeList identityNodeList = document.getElementsByTagName("identity");
-		for (int i = 0; i < identityNodeList.getLength(); i++) {
-			final Node identityNode = identityNodeList.item(i);
-			if (identityNode instanceof Element) {
-				final Element identityElement = (Element) identityNode;
-				final NodeList properties = identityElement.getElementsByTagName("property");
-				final Identity identity = new Identity();
-				list.add(identity);
-				for (int j = 0; j < properties.getLength(); j++) {
+		final List<Identity> results = new ArrayList<>();
+		String finalXpathString = XPATH_SEARCH_QUERY.replaceAll(XPATH_NAME_WILDCARD, criteria.getDisplayName());
+		final List<Element> list = evaluateXpathAsNodeList(finalXpathString,
+				document);
 
-					final Node propertyNode = properties.item(j);
-					if (propertyNode instanceof Element) {
-						final Element propertyElement = (Element) propertyNode;
-						final String propertyName = propertyElement.getAttribute("name");
-						final String propertyValue = propertyElement.getTextContent().trim();
-						switch (propertyName) {
-						case "displayName":
-							identity.setDisplayName(propertyValue);
-							break;
-						case "email":
-							identity.setEmail(propertyValue);
-							break;
-						case "uid":
-							identity.setUid(propertyValue);
-							break;
-						}
-
-					}
-
-				}
-
+		for (final Element element : list) {
+			final Identity identity = new Identity();
+			if ("displayName".equals(element.getAttribute("name"))) {
+				identity.setDisplayName(element.getTextContent());
 			}
-
+			if ("email".equals(element.getAttribute("name"))) {
+				identity.setEmail(element.getTextContent());
+			}
+			if ("uid".equals(element.getAttribute("name"))) {
+				identity.setUid(element.getTextContent());
+			}
+			results.add(identity);
 		}
-
-		return list;
+		return results;
 	}
+
+	/**
+	 * <h3>Description</h3>
+	 * <p>
+	 * This methods allows to ...
+	 * </p>
+	 *
+	 * <h3>Usage</h3>
+	 * <p>
+	 * It should be used as follows :
+	 *
+	 * <pre>
+	 * <code> ${enclosing_type} sample;
+	 *
+	 * //...
+	 *
+	 * sample.${enclosing_method}();
+	 *</code>
+	 * </pre>
+	 * </p>
+	 *
+	 * @since $${version}
+	 * @see Voir aussi $${link}
+	 * @author ${user}
+	 *
+	 *         ${tags}
+	 */
+	private List<Element> evaluateXpathAsNodeList(String xpathExpr, Node el) {
+		NodeList nl;
+		final List<Element> elements = new ArrayList<>();
+		try {
+			nl = (NodeList) XPATH_FACTORY.newXPath().evaluate(xpathExpr, el, XPathConstants.NODESET);
+		} catch (final XPathExpressionException e) {
+			LOGGER.error("error while executing this query : " + xpathExpr, e);
+			return elements;
+		}
+		for (int i = 0; i < nl.getLength(); i++) {
+			elements.add((Element) nl.item(i));
+		}
+		return elements;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see fr.epita.iam.service.IdentityDAO#search(fr.epita.iam.datamodel.Identity)
+	 */
+	// @Override
+	// public List<Identity> search(Identity criteria) {
+	// final List<Identity> list = new ArrayList<>();
+	// final NodeList identityNodeList = document.getElementsByTagName("identity");
+	// for (int i = 0; i < identityNodeList.getLength(); i++) {
+	// final Node identityNode = identityNodeList.item(i);
+	// if (identityNode instanceof Element) {
+	// final Element identityElement = (Element) identityNode;
+	// final NodeList properties = identityElement.getElementsByTagName("property");
+	// final Identity identity = new Identity();
+	// list.add(identity);
+	// for (int j = 0; j < properties.getLength(); j++) {
+	//
+	// final Node propertyNode = properties.item(j);
+	// if (propertyNode instanceof Element) {
+	// final Element propertyElement = (Element) propertyNode;
+	// final String propertyName = propertyElement.getAttribute("name");
+	// final String propertyValue = propertyElement.getTextContent().trim();
+	// switch (propertyName) {
+	// case "displayName":
+	// identity.setDisplayName(propertyValue);
+	// break;
+	// case "email":
+	// identity.setEmail(propertyValue);
+	// break;
+	// case "uid":
+	// identity.setUid(propertyValue);
+	// break;
+	// }
+	//
+	// }
+	//
+	// }
+	//
+	// }
+	//
+	// }
+	//
+	// return list;
+	// }
+
 
 }
